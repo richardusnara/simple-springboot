@@ -21,63 +21,39 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity getAllCourse() {
-        try {
-            List<Course> courseList = courseService.list();
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<List<Course>>(
-                    "Success get all course", courseList
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        List<Course> courseList = courseService.list();
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<List<Course>>(
+                "Success get all course", courseList
+        ));
     }
 
     @PostMapping
     public ResponseEntity createCourse(@RequestBody Course course) {
-        try {
-            Course newCourse = courseService.create(course);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<Course>("Success create course", newCourse));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        Course newCourse = courseService.create(course);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<Course>("Success create course", newCourse));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getById(@PathVariable String id) {
-        try {
-            Optional<Course> course = courseService.get(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Optional<Course>>("Success get course with id " + id, course));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        Optional<Course> course = courseService.get(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Optional<Course>>("Success get course with id " + id, course));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity update(@RequestBody Course course, @PathVariable String id) {
-        try {
-            courseService.update(course, id);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Course>("Success update course", course));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        courseService.update(course, id);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Course>("Success update course", course));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
-        try {
-            courseService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>("Success delete course with id " + id, null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        courseService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>("Success delete course with id " + id, null));
     }
 
     @GetMapping(params = {"key", "value"})
     public ResponseEntity getBy(@RequestParam String key, @RequestParam String value) {
-        try {
-            Optional<List<Course>> courses = courseService.getBy(CourseKey.valueOf(key), value);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Optional<List<Course>>>("Success get course with " + key, courses));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("X01", e.getMessage()));
-        }
+        Optional<List<Course>> courses = courseService.getBy(CourseKey.valueOf(key), value);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<Optional<List<Course>>>("Success get course with " + key, courses));
     }
 }

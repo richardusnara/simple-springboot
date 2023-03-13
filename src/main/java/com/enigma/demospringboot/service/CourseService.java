@@ -1,5 +1,6 @@
 package com.enigma.demospringboot.service;
 
+import com.enigma.demospringboot.exception.NotFoundException;
 import com.enigma.demospringboot.model.Course;
 import com.enigma.demospringboot.repository.ICourseRepository;
 import com.enigma.demospringboot.util.CourseKey;
@@ -20,7 +21,7 @@ public class CourseService implements ICourseService{
         try {
             List<Course> courses = courseRepository.getAll();
             if (courses.isEmpty()) {
-                throw new Exception("Course not found");
+                throw new NotFoundException("Course not found");
             }
 
             return courses;
@@ -43,7 +44,7 @@ public class CourseService implements ICourseService{
         try {
             Optional<Course> courses = courseRepository.findById(id);
             if (courses.isEmpty()) {
-                throw new Exception("Course not found");
+                throw new NotFoundException("Course not found");
             }
 
             return courses;
@@ -57,7 +58,7 @@ public class CourseService implements ICourseService{
         try {
             Optional<List<Course>> courses = courseRepository.findBy(key, value);
             if (courses.isEmpty()) {
-                throw new Exception("Course not found");
+                throw new NotFoundException("Course not found");
             }
 
             return courses;
