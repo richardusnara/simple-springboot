@@ -18,7 +18,12 @@ public class CourseService implements ICourseService{
     @Override
     public List<Course> list() {
         try {
-            return courseRepository.getAll();
+            List<Course> courses = courseRepository.getAll();
+            if (courses.isEmpty()) {
+                throw new Exception("Course not found");
+            }
+
+            return courses;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +41,12 @@ public class CourseService implements ICourseService{
     @Override
     public Optional<Course> get(String id) {
         try {
-            return courseRepository.findById(id);
+            Optional<Course> courses = courseRepository.findById(id);
+            if (courses.isEmpty()) {
+                throw new Exception("Course not found");
+            }
+
+            return courses;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +55,12 @@ public class CourseService implements ICourseService{
     @Override
     public Optional<List<Course>> getBy(CourseKey key, String value) {
         try {
-            return courseRepository.findBy(key, value);
+            Optional<List<Course>> courses = courseRepository.findBy(key, value);
+            if (courses.isEmpty()) {
+                throw new Exception("Course not found");
+            }
+
+            return courses;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
