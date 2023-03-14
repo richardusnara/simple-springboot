@@ -5,6 +5,7 @@ import com.enigma.demospringboot.model.request.CourseRequest;
 import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity createCourse(@RequestBody CourseRequest courseRequest) {
+    public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) {
         Course newCourse = modelMapper.map(courseRequest, Course.class);
-
 //        Course newCourse = new Course();
 //        newCourse.setTitle(courseRequest.getTitle());
 //        newCourse.setDescription(courseRequest.getDescription());

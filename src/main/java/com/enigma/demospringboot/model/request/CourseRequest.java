@@ -1,8 +1,12 @@
 package com.enigma.demospringboot.model.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CourseRequest {
+    @NotBlank(message = "{invalid.title.required}")
     private String title;
     private String description;
+    @NotBlank(message = "{invalid.link.required}")
     private String link;
 
     public String getTitle() {
