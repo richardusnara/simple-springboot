@@ -1,7 +1,7 @@
 package com.enigma.demospringboot.repository;
 
 import com.enigma.demospringboot.model.Course;
-import com.enigma.demospringboot.util.CourseKey;
+import com.enigma.demospringboot.util.constants.CourseKey;
 
 import java.util.List;
 import java.util.Optional;

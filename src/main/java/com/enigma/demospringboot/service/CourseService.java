@@ -3,7 +3,7 @@ package com.enigma.demospringboot.service;
 import com.enigma.demospringboot.exception.NotFoundException;
 import com.enigma.demospringboot.model.Course;
 import com.enigma.demospringboot.repository.ICourseRepository;
-import com.enigma.demospringboot.util.CourseKey;
+import com.enigma.demospringboot.util.constants.CourseKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,12 @@ import java.util.Optional;
 
 @Service
 public class CourseService implements ICourseService{
+    private ICourseRepository courseRepository;
 
     @Autowired
-    private ICourseRepository courseRepository;
+    public CourseService(ICourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     @Override
     public List<Course> list() {

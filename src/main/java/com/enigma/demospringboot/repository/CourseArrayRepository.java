@@ -1,7 +1,7 @@
 package com.enigma.demospringboot.repository;
 
 import com.enigma.demospringboot.model.Course;
-import com.enigma.demospringboot.util.CourseKey;
+import com.enigma.demospringboot.util.constants.CourseKey;
 import com.enigma.demospringboot.util.IRandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,11 +12,14 @@ import java.util.Optional;
 
 @Repository
 public class CourseArrayRepository implements ICourseRepository{
+    private IRandomStringGenerator randomStringGenerator;
+    private List<Course> courses;
 
     @Autowired
-    IRandomStringGenerator randomStringGenerator;
-
-    private List<Course> courses = new ArrayList<>();
+    public CourseArrayRepository(IRandomStringGenerator randomStringGenerator) {
+        this.randomStringGenerator = randomStringGenerator;
+        this.courses = new ArrayList<>();
+    }
 
     @Override
     public List<Course> getAll() throws Exception {
