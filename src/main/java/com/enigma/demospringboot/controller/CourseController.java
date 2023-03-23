@@ -5,6 +5,7 @@ import com.enigma.demospringboot.model.request.CourseRequest;
 import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
+import com.enigma.demospringboot.util.validation.JwtUtil;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,18 @@ public class CourseController {
     private ICourseService courseService;
     private ModelMapper modelMapper;
 
+    private JwtUtil jwtUtil;
+
     @Autowired
-    public CourseController(ICourseService courseService, ModelMapper modelMapper) {
+    public CourseController(ICourseService courseService, ModelMapper modelMapper, JwtUtil jwtUtil) {
         this.courseService = courseService;
         this.modelMapper = modelMapper;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
     public ResponseEntity getAllCourse() {
+        System.out.println("GET ALL COURSE");
         List<Course> courseList = courseService.list();
         return ResponseEntity
                 .status(HttpStatus.OK)
