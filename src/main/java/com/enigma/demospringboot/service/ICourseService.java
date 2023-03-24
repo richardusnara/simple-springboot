@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ICourseService {
-    List<Course> list() throws Exception;
+    Page<Course> list(Integer page, Integer size, String direction, String sortBy) throws Exception;
     Course create(Course course) throws Exception;
     Optional<Course> get(String id) throws Exception;
     void update(Course course, String id) throws Exception;

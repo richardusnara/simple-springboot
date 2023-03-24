@@ -2,12 +2,14 @@ package com.enigma.demospringboot.controller;
 
 import com.enigma.demospringboot.model.Course;
 import com.enigma.demospringboot.model.request.CourseRequest;
+import com.enigma.demospringboot.model.response.PagingResponse;
 import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +30,14 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity getAllCourse() throws Exception {
-        List<Course> courseList = courseService.list();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new SuccessResponse<List<Course>>("Success get all course", courseList));
+    public ResponseEntity getAllCourse(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "DESC") String direction,
+            @RequestParam(defaultValue = "courseId") String sortBy
+    ) throws Exception {
+        Page<Course> courses = courseService.list(page, size, direction, sortBy);
+        return ResponseEntity.status(HttpStatus.OK).body(new PagingResponse<>("Success get course list", courses));
     }
 
     @PostMapping
