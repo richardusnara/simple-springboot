@@ -3,6 +3,7 @@ package com.enigma.demospringboot.service;
 import com.enigma.demospringboot.model.CourseType;
 import com.enigma.demospringboot.repository.ICourseTypeRepository;
 import com.enigma.demospringboot.util.IRandomStringGenerator;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+@Transactional
 @Service
 public class CourseTypeService implements ICourseTypeService {
     ICourseTypeRepository courseTypeRepository;

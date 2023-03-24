@@ -6,6 +6,7 @@ import com.enigma.demospringboot.model.CourseType;
 import com.enigma.demospringboot.repository.ICourseRepository;
 import com.enigma.demospringboot.repository.ICourseTypeRepository;
 import com.enigma.demospringboot.util.constants.CourseKey;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class CourseService implements ICourseService{
     private ICourseRepository courseRepository;
