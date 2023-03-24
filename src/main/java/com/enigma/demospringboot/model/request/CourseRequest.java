@@ -13,6 +13,9 @@ public class CourseRequest {
     @NotNull(message = "{invalid.courseinfo.required}")
     private CourseInfoRequest courseInfo;
 
+    @NotNull(message = "{invalid.coursetype.required}")
+    private CourseTypeIdRequest courseType;
+
     public String getTitle() {
         return title;
     }
@@ -45,6 +48,14 @@ public class CourseRequest {
         this.courseInfo = courseInfo;
     }
 
+    public CourseTypeIdRequest getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(CourseTypeIdRequest courseType) {
+        this.courseType = courseType;
+    }
+
     @Override
     public String toString() {
         return "CourseRequest{" +
@@ -52,6 +63,7 @@ public class CourseRequest {
                 ", description='" + description + '\'' +
                 ", link='" + link + '\'' +
                 ", courseInfo=" + courseInfo +
+                ", courseType=" + courseType +
                 '}';
     }
 }

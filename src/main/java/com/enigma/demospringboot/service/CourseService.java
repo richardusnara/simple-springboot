@@ -2,7 +2,9 @@ package com.enigma.demospringboot.service;
 
 import com.enigma.demospringboot.exception.NotFoundException;
 import com.enigma.demospringboot.model.Course;
+import com.enigma.demospringboot.model.CourseType;
 import com.enigma.demospringboot.repository.ICourseRepository;
+import com.enigma.demospringboot.repository.ICourseTypeRepository;
 import com.enigma.demospringboot.util.constants.CourseKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,10 +20,12 @@ import java.util.Optional;
 @Service
 public class CourseService implements ICourseService{
     private ICourseRepository courseRepository;
+    private ICourseTypeRepository courseTypeRepository;
 
     @Autowired
-    public CourseService(ICourseRepository courseRepository) {
+    public CourseService(ICourseRepository courseRepository, ICourseTypeRepository courseTypeRepository) {
         this.courseRepository = courseRepository;
+        this.courseTypeRepository = courseTypeRepository;
     }
 
     @Override
@@ -35,7 +39,15 @@ public class CourseService implements ICourseService{
     @Override
     public Course create(Course course) {
         try {
-            return courseRepository.save(course);
+            Optional<CourseType> courseType = courseTypeRepository.findById(course.getCourseType().getCourseTypeId());
+
+            if (courseType.isEmpty()) {
+                throw new NotFoundException("Course type is not found");
+            }
+
+            course.setCourseType(courseType.get());
+            Course newCourse = courseRepository.save(course);
+            return newCourse;
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Data is Exist");
         }

@@ -44,7 +44,6 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) throws Exception {
-        System.out.println(courseRequest);
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Course newCourse = modelMapper.map(courseRequest, Course.class);
 //        Course newCourse = new Course();

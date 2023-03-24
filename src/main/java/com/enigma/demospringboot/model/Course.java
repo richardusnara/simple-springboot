@@ -25,6 +25,22 @@ public class Course {
     @JoinColumn(name = "course_info_id", referencedColumnName = "course_info_id")
     private CourseInfo courseInfo;
 
+    @ManyToOne
+    @JoinColumn(name = "course_type_id", referencedColumnName = "course_type_id", nullable = false)
+    private CourseType courseType;
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseId='" + courseId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                ", courseInfo=" + courseInfo +
+                ", courseType=" + courseType +
+                '}';
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -65,14 +81,11 @@ public class Course {
         this.courseInfo = courseInfo;
     }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "courseId='" + courseId + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
-                ", courseInfo=" + courseInfo +
-                '}';
+    public CourseType getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(CourseType courseType) {
+        this.courseType = courseType;
     }
 }
