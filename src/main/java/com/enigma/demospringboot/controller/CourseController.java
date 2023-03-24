@@ -6,7 +6,7 @@ import com.enigma.demospringboot.model.response.PagingResponse;
 import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
-import com.enigma.demospringboot.util.constants.Operator;
+import com.enigma.demospringboot.util.constants.FindOperator;
 import com.enigma.demospringboot.util.specification.SearchCriteria;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -94,7 +94,7 @@ public class CourseController {
 
     @GetMapping(params = {"key", "value", "operator"})
     public ResponseEntity getAllBy(@RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("operator") String operator) throws Exception {
-        SearchCriteria searchCriteria = new SearchCriteria(key, Operator.valueOf(operator), value);
+        SearchCriteria searchCriteria = new SearchCriteria(key, FindOperator.valueOf(operator), value);
         List<Course> courses = courseService.listBy(searchCriteria);
 
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>("Success get all course by", courses));

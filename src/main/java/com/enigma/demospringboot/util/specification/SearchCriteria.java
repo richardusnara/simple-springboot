@@ -1,15 +1,15 @@
 package com.enigma.demospringboot.util.specification;
 
-import com.enigma.demospringboot.util.constants.Operator;
+import com.enigma.demospringboot.util.constants.FindOperator;
 
 public class SearchCriteria {
     private String key;
-    private Operator operation;
+    private FindOperator operator;
     private String value;
 
-    public SearchCriteria(String key, Operator operation, String value) {
+    public SearchCriteria(String key, FindOperator operator, String value) {
         this.key = key;
-        this.operation = operation;
+        this.operator = operator;
         this.value = value;
     }
 
@@ -21,12 +21,12 @@ public class SearchCriteria {
         this.key = key;
     }
 
-    public Operator getOperation() {
-        return operation;
+    public FindOperator getOperator() {
+        return operator;
     }
 
-    public void setOperation(Operator operation) {
-        this.operation = operation;
+    public void setOperator(FindOperator operator) {
+        this.operator = operator;
     }
 
     public String getValue() {
