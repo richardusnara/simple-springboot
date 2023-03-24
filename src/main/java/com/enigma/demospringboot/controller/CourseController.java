@@ -7,7 +7,9 @@ import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,8 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) throws Exception {
+        System.out.println(courseRequest);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Course newCourse = modelMapper.map(courseRequest, Course.class);
 //        Course newCourse = new Course();
 //        newCourse.setTitle(courseRequest.getTitle());
@@ -79,7 +83,7 @@ public class CourseController {
     }
 
     @GetMapping(params = {"key", "value"})
-    public ResponseEntity getBy(@RequestParam String key, @RequestParam String value) throws Exception {
+    public ResponseEntity getBy(@RequestParam @NotBlank(message = "{invalid.keyword.required}") String key, @RequestParam String value) throws Exception {
         Optional<List<Course>> courses = Optional.ofNullable(courseService.getBy(CourseKey.valueOf(key), value));
         return ResponseEntity
                 .status(HttpStatus.OK)

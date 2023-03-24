@@ -21,15 +21,9 @@ public class Course {
     @Column(name = "link", nullable = false, length = 200)
     private String link;
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "courseId='" + courseId + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
-                '}';
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_info_id", referencedColumnName = "course_info_id")
+    private CourseInfo courseInfo;
 
     public String getCourseId() {
         return courseId;
@@ -61,5 +55,24 @@ public class Course {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public CourseInfo getCourseInfo() {
+        return courseInfo;
+    }
+
+    public void setCourseInfo(CourseInfo courseInfo) {
+        this.courseInfo = courseInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseId='" + courseId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                ", courseInfo=" + courseInfo +
+                '}';
     }
 }

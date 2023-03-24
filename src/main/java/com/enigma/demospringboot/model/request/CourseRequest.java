@@ -1,6 +1,7 @@
 package com.enigma.demospringboot.model.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CourseRequest {
     @NotBlank(message = "{invalid.title.required}")
@@ -8,6 +9,9 @@ public class CourseRequest {
     private String description;
     @NotBlank(message = "{invalid.link.required}")
     private String link;
+
+    @NotNull(message = "{invalid.courseinfo.required}")
+    private CourseInfoRequest courseInfo;
 
     public String getTitle() {
         return title;
@@ -31,5 +35,23 @@ public class CourseRequest {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public CourseInfoRequest getCourseInfo() {
+        return courseInfo;
+    }
+
+    public void setCourseInfo(CourseInfoRequest courseInfo) {
+        this.courseInfo = courseInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseRequest{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                ", courseInfo=" + courseInfo +
+                '}';
     }
 }
