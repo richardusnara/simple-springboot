@@ -5,6 +5,7 @@ import com.enigma.demospringboot.model.Course;
 import com.enigma.demospringboot.repository.ICourseRepository;
 import com.enigma.demospringboot.util.constants.CourseKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,59 +22,62 @@ public class CourseService implements ICourseService{
 
     @Override
     public List<Course> list() {
-        try {
-            List<Course> courses = courseRepository.getAll();
-            if (courses.isEmpty()) {
-                throw new NotFoundException("Course not found");
-            }
-
-            return courses;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        List<Course> courses = courseRepository.findAll();
+        return courses;
     }
 
     @Override
     public Course create(Course course) {
         try {
-            return courseRepository.create(course);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return courseRepository.save(course);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Data is Exist");
         }
     }
 
     @Override
     public Optional<Course> get(String id) {
-        try {
-            Optional<Course> courses = courseRepository.findById(id);
-            if (courses.isEmpty()) {
-                throw new NotFoundException("Course not found");
-            }
-
-            return courses;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        Optional<Course> courses = courseRepository.findById(id);
+        if (courses.isEmpty()) {
+            throw new NotFoundException("Course not found");
         }
+
+        return courses;
+    }
+
+    private List<Course> findByTitleContains(String value) {
+        List<Course> courses = courseRepository.findByTitleContains(value);
+        if (courses.isEmpty()) {
+            throw new NotFoundException("Course with " + value + " title is not found");
+        }
+
+        return courses;
+    }
+
+    private List<Course> findByDescriptionContains(String value) {
+        List<Course> courses = courseRepository.findByDescriptionContains(value);
+        if (courses.isEmpty()) {
+            throw new NotFoundException("Course with " + value + " description is not found");
+        }
+
+        return courses;
     }
 
     @Override
-    public Optional<List<Course>> getBy(CourseKey key, String value) {
-        try {
-            Optional<List<Course>> courses = courseRepository.findBy(key, value);
-            if (courses.isEmpty()) {
-                throw new NotFoundException("Course not found");
-            }
-
-            return courses;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public List<Course> getBy(CourseKey key, String val) {
+        return switch (key) {
+            case title -> findByTitleContains(val);
+            case description -> findByDescriptionContains(val);
+            default -> courseRepository.findAll();
+        };
     }
 
     @Override
     public void update(Course course, String id) {
         try {
-            courseRepository.update(course, id);
+            Optional<Course> existingCourse = get(id);
+            course.setCourseId(existingCourse.get().getCourseId());
+            courseRepository.save(course);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -82,9 +86,10 @@ public class CourseService implements ICourseService{
     @Override
     public void delete(String id) {
         try {
-            courseRepository.delete(id);
+            Optional<Course> existingCourse = get(id);
+            courseRepository.delete(existingCourse.get());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Delete failed");
         }
     }
 }

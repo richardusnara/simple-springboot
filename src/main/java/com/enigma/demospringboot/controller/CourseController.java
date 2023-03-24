@@ -28,7 +28,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity getAllCourse() {
+    public ResponseEntity getAllCourse() throws Exception {
         List<Course> courseList = courseService.list();
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -36,7 +36,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) {
+    public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) throws Exception {
         Course newCourse = modelMapper.map(courseRequest, Course.class);
 //        Course newCourse = new Course();
 //        newCourse.setTitle(courseRequest.getTitle());
@@ -50,7 +50,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable String id) {
+    public ResponseEntity getById(@PathVariable String id) throws Exception {
         Optional<Course> course = courseService.get(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -58,7 +58,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@RequestBody Course course, @PathVariable String id) {
+    public ResponseEntity update(@RequestBody Course course, @PathVariable String id) throws Exception {
         courseService.update(course, id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -66,7 +66,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable String id) {
+    public ResponseEntity delete(@PathVariable String id) throws Exception {
         courseService.delete(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -74,8 +74,8 @@ public class CourseController {
     }
 
     @GetMapping(params = {"key", "value"})
-    public ResponseEntity getBy(@RequestParam String key, @RequestParam String value) {
-        Optional<List<Course>> courses = courseService.getBy(CourseKey.valueOf(key), value);
+    public ResponseEntity getBy(@RequestParam String key, @RequestParam String value) throws Exception {
+        Optional<List<Course>> courses = Optional.ofNullable(courseService.getBy(CourseKey.valueOf(key), value));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new SuccessResponse<Optional<List<Course>>>("Success get course with " + key, courses));
