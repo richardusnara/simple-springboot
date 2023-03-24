@@ -6,6 +6,8 @@ import com.enigma.demospringboot.model.response.PagingResponse;
 import com.enigma.demospringboot.model.response.SuccessResponse;
 import com.enigma.demospringboot.service.ICourseService;
 import com.enigma.demospringboot.util.constants.CourseKey;
+import com.enigma.demospringboot.util.constants.Operator;
+import com.enigma.demospringboot.util.specification.SearchCriteria;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.modelmapper.ModelMapper;
@@ -46,6 +48,7 @@ public class CourseController {
     public ResponseEntity createCourse(@Valid @RequestBody CourseRequest courseRequest) throws Exception {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Course newCourse = modelMapper.map(courseRequest, Course.class);
+
 //        Course newCourse = new Course();
 //        newCourse.setTitle(courseRequest.getTitle());
 //        newCourse.setDescription(courseRequest.getDescription());
@@ -87,5 +90,13 @@ public class CourseController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new SuccessResponse<Optional<List<Course>>>("Success get course with " + key, courses));
+    }
+
+    @GetMapping(params = {"key", "value", "operator"})
+    public ResponseEntity getAllBy(@RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("operator") String operator) throws Exception {
+        SearchCriteria searchCriteria = new SearchCriteria(key, Operator.valueOf(operator), value);
+        List<Course> courses = courseService.listBy(searchCriteria);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>("Success get all course by", courses));
     }
 }

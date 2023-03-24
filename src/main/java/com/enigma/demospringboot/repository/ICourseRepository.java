@@ -1,6 +1,7 @@
 package com.enigma.demospringboot.repository;
 
 import com.enigma.demospringboot.model.Course;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,4 +14,6 @@ public interface ICourseRepository extends JpaRepository<Course, String> {
 
     @Query("SELECT c FROM Course c WHERE c.description LIKE %?1%")
     List<Course> findByDescriptionContains(String description);
+
+    List<Course> findAll(Specification specification);
 }
